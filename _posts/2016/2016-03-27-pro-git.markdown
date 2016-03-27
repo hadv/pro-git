@@ -28,11 +28,11 @@ Git hoạt động như thế nào? Phần này thực sự rất quan trọng v
 ### Git lưu giữ snapshot thay vì nội dung thay đổi
 Sự khác biệt lớn nhất giữa Git và các VCS khác là cách Git nhìn nhận về dữ liệu. Về lý thuyết, hầu hết các hệ thống VCS đều lưu giữ thông tin dựa trên các nội dung thay đổi của các files. Các hệ thống này nhìn nhận thông tin bao gồm các files và các nội dung thay đổi theo thời gian như hình bên dưới.
 
-![svn](images/2016/03/progit-en_1084__page_32_of_574_.jpg)
+![svn](https://github.com/hadv/pro-git/blob/master/images/2016/03/progit-en_1084__page_32_of_574_.jpg)
 
 Git không tiếp cận về thông tin như vậy. Thay vì đó, Git tiếp cận thông tin như một chuỗi các snapshot của một hệ thống file HĐH thu nhỏ. Mỗi lần bạn commit, hay bạn lưu giữ một trạng thái của dự án thì về cơ bản giống như bạn chụp một bức ảnh toàn bộ nội dung của files tại thời điểm đó. Để hoạt động được hiệu quả thì đối với những file không thay đổi, Git sẽ không lưu giữ lặp lại mà chỉ link đến trạng thái trước đó. Git tiếp cận dữ liệu của dự án như một chuỗi các snapshot.
 
-![git-snapshot](images/2016/03/progit-en_1084__page_32_of_575_.jpg)
+![git-snapshot](https://github.com/hadv/pro-git/blob/master/images/2016/03/progit-en_1084__page_32_of_575_.jpg)
 
 Đây thực sự là một khác biệt quan trọng giữa Git và hầu hết các hệ thống VCS khác. Điều này làm đã làm thay đổi hoàn toàn cách làm mà các VCS khác đã copy từ các VCS trước đó. Git hoạt động như một hệ thống file của một HĐH thu nhỏ và bổ sung thêm các công cụ mạnh mẽ trên nền đó, chứ không đơn giản chỉ là một hệ thống VCS. Chúng ta sẽ tìm hiểu rõ thêm về điều này trong bài học về `Git Branching`.
 
@@ -60,7 +60,7 @@ Chúng ta sẽ thấy mã băm này được sử dụng khắp nơi trên các 
 
 Tương ứng với ba trạng thái kể trên, chúng ta sẽ có ba khu vực chính của một dự án Git: `thư mục Git`, `thư mục làm việc` và `khu vực staging` như hình bên dưới.
 
-![git-area](images/2016/03/progit-en_1084__page_35_of_576_.jpg)
+![git-area](https://github.com/hadv/pro-git/blob/master/images/2016/03/progit-en_1084__page_35_of_576_.jpg)
 
 * `Thư mục Git`: là nơi Git lưu giữ toàn bộ dữ liệu dự án. Đây là phần quan trọng nhất của Git, và nó được copy khi bạn thực hiện clone repo dự án từ một máy tính khác về local.
 * `Thư mục làm việc`: Là một version riêng lẻ của dự án được checkout từ `thư mục Git` về một thư mục trên ổ cứng để bạn có thể làm việc và thay đổi trên đó.
