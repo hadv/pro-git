@@ -1,0 +1,536 @@
+![logo](https://git-scm.com/images/logos/downloads/Git-Logo-2Color.png)
+
+# Buổi #1: Cơ bản về Git
+## Hệ thống quản lý version – VCS
+Hệ thống quàn lý version là gì, và tại sao chúng ta cần quan tâm và sử dụng nó? Hệ thống quản lý version là một hệ thống lưu lại toàn bộ lịch sử thay đổi của một hoặc nhiều file để chúng ta có thể lấy lại một phiên bản bất kỳ nào đó. Thông thường, chúng ta nghĩ các hệ thống quản lý version dùng để quản lý các file mã nguồn. Tuy nhiên, trong thực thế chúng ta có thể dùng để quản lý version cho bất kỳ định dạng file nào.
+
+Nếu bạn là một nhà thiết kế đồ hoạ hoặc thiếp kế web và mong muốn giữ lại các version của một file ảnh hoặc một thiết kế layout thì việc sử dụng **VCS** là một lựa chọn sáng suốt. Nó cho phép bản lấy lại được các trạng thái trước đó, so sánh nội dung thay đổi của các trạng thái, hay truy tìm xem ai là người gây ra lỗi lầm khi thay đổi một nội dung nào đó và nhiều việc khác nữa. Tất cả đều được thực hiện một cách dễ dàng với việc sử dụng **VCS**.
+
+## Lịch sử ra đời của Git
+Cũng giống như những thứ tuyệt vời trong cuộc sống, Git đã được ra đời sau những cuộc tàn phá sáng tạo và đấu tranh nảy lửa.
+
+Nhân HĐH Linux là một dự án mã nguồn mở rất lớn. Và trong thời kỳ từ năm 1991~2002, những thay đổi trong nhân HĐH này được đi bằng những file `patch`. Đến năm 2002, Linux bắt đầu sử dụng một hệ thống quản lý version phân tán thương mại có tên là [BitKepper](http://www.bitkeeper.com).
+
+Đến năm 2015, quan hệ giữa cộng đồng phát triển HDH Linux và công ty phát triển `BitKeeper` bị giạn nứt và việc sử dụng miễn phí công cụ này được cty kia thu hồi. Chính điều này đã thôi thúc cộng đồng phát triển HĐH Linux, đặc biệt là Linus Tovrald, cha đẻ của chính HĐH này, tự phát triển một công cụ của riêng họ dựa trên những điều họ đã học được khi sử dụng `BitKeeper`. Một vài mục tiêu của hệ thống mới đã được đưa ra:
+* Tốc độ cao
+* Thiết kế đơn giản
+* Hỗ trợ tốt cho việc phát triển song song trên nhiều nhánh
+* Phân tán tuyệt đối
+* Và có thể xử lý các dự án lớn như nhân của HĐH Linux một các hiệu quả.
+
+Từ khi ra đời năm 2005, Git đã liên tục được cải tiến và trở nên hoàn thiện , dễ sử dụng và vẫn giữ  được chất lượng như ban đầu. Git hoạt động nhanh đến kinh ngạc, rất hiệu quả cho các dự án lớn, và có một hệ thống nhân nhánh tốt giúp cho việc phát triển song song trên nhiều nhánh trở nên dễ dàng. Repository của Mozilla chiếm khoảng 12GB khi dùng SVN, khi chuyển sang Git thì chỉ chiếm khoảng 400MB. Thật không thể tin được!
+
+Xem trong [lịch sử commit](http://git.kernel.org/cgit/git/git.git/log/?) của Git thì thấy có tên của 2 người Việt là `Trần Ngọc Quân` và `Nguyễn Thái Ngọc Duy` có tham gia vào việc phát triển Git :+1:
+
+## Git hoạt động như thế nào?
+## Cài đặt Git
+### Linux
+**Debian/Ubuntu**
+```
+$ sudo apt-get install git
+```
+**RedHat/Fedora**
+```
+$ sudo yum install git
+```
+
+### MacOSX
+Có nhiều cách để có thể cài đặt `git` trên MacOSX. Cách đơn giản nhất là cài đặt bộ công cụ `Xcode Command Line Tools` thì `git` sẽ được cài đặt một cách tự động.  Từ phiên bản `MacOSX 10.9` trở lên thì bạn chỉ cần gõ lệnh `git` trong terminal thì nếu git chưa được cài đặt trên máy thì sẽ hiển thị nội dung xác nhận để cài đặt `git`. Hoặc bạn có thể download `git` từ trang web [git-scm](https://git-scm.com/download/mac) và chạy trình cài đặt như bên dưới.
+![git-scm](https://git-scm.com/book/en/v2/book/01-introduction/images/git-osx-installer.png)
+
+## Cấu hình Git
+Sau khi đã cài đặt xong `git` trên máy thì lần sử dụng đầu tiên thông thường chúng ra sẽ cấu hình để phục vụ cho nhu cầu sử dụng phù hợp với mỗi cá nhân. Git cung cấp một công cụ gọi là `git config` cho phép chúng ta tuỳ biến các công việc sử dụng liên quan đến `git`
+
+Những biến môi trường của `git` có thể được lưu trữ ở 3 nơi khác nhau
+1. /usr/local/etc/gitconfig: Khi chúng ra muốn cấu hình `git` cho toàn bộ người dùng và sử dụng `git config --system` thì git sẽ đọc/ghi vào file này.
+2. ~/.gitconfig hoặc ~/.config/git/config: Đây là những cài đặt cấu hình cho riêng từng cá nhân. Chúng ta có thể cấu hình vào các file này bằng việc sử dụng `git config --global`.
+3. .git/config: File cấu hình này được sử dụng riêng biệt cho từng `git repository` khác nhau. Nếu bạn ***không*** chỉ đinh `--system` hay `--global` thì mặc định `git config` sẽ đọc/ghi vào file này và cũng tương đương với việc chỉ đinh là `--local`
+
+Cấu trúc đặc trưng của file cấu hình về cơ bản là theo định dạng của file `ini` như sau
+```
+[user]
+        name = hadv
+        email = dvietha@gmail.com
+[core]
+        autocrlf = input
+        excludesfile = /Users/hadv/.gitignore_global
+[difftool "sourcetree"]
+        cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+        path =
+[mergetool "sourcetree"]
+        cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge$
+        trustExitCode = true
+[alias]
+        co = checkout
+        st = status
+        ci = commit
+```
+
+Nếu có nội dung cấu hình trùng lặp nhau thì git sẽ ưu tiên theo thứ tự `--local` → `--global` → `--system`. Như vậy nội dung cấu hình ở file `.git/config` sẽ ghi đè lên cấu hình trong file `/etc/gitconfig`.
+
+Để cài đặt cấu hình cho `git` chúng ra sử dụng lệnh `git config --global [key] [value]`. Ví dụ để cài đặt `name` và `email` thì chúng ra chạy các lệnh tương ứng sau đây:
+```
+$ git config --global user.name "Trinh Minh Cuong"
+$ git config --global user.email cuong@techmaster.vn
+```
+
+Việc cấu hình `name` và `email` cho `git` là rất quan trọng cho lần đầu tiên sử dụng `git` vì `git commit` sẽ sử dụng thông tin này trong nội dung các commits mà bạn tạo ra để có thể phân biệt được ai là người thực hiện hành động commit cụ thể nào đó.
+
+Để xem nội dung các cấu hình hiện tại của `git`, bạn có thể sử dụng `git config --list` hoặc `git config -l` để xem toàn bộ nội dung cấu hình thay vì phải mở xem 3 file kể trên.
+```
+$ git config --list
+user.name=hadv
+user.email=dvietha@gmail.com
+core.excludesfile=/Users/hadv/.gitignore_global
+alias.co=checkout
+alias.st=status
+alias.ci=commit
+```
+
+Hoặc nếu bạn chỉ muốn xem một nội dung cấu hình cụ thể thì bạn có thể chạy lệnh sau đây
+```
+$ git config user.email
+dvietha@gmail.com
+```
+
+### Tự học Git bằng cách sử dụng help
+Sau khi đã có những tiếp cận cơ bản về `Git`, chúng ra hoàn toàn có thể tự tìm hiểu sâu thêm về `Git` bằng việc sử dụng và đọc các tài liệu `help` của git. Có 3 cách để chúng ta có thể mở hướng dẫn sử dụng một lệnh bất kỳ của `git`.
+```
+$ git help <từ khoá>
+$ git <từ khoá> --help
+$ man git-<từ khoá>
+```
+
+Ví dụ, bạn muốn tìm hiểu sâu thêm về `git config` thì bạn có thể chạy lệnh sau đây:
+```
+$ git help config
+```
+
+```
+GIT-CONFIG(1)                                       Git Manual                                      GIT-CONFIG(1)
+
+NAME
+       git-config - Get and set repository or global options
+
+SYNOPSIS
+       git config [<file-option>] [type] [-z|--null] name [value [value_regex]]
+       git config [<file-option>] [type] --add name value
+       git config [<file-option>] [type] --replace-all name value [value_regex]
+       git config [<file-option>] [type] [-z|--null] --get name [value_regex]
+       git config [<file-option>] [type] [-z|--null] --get-all name [value_regex]
+       git config [<file-option>] [type] [-z|--null] --get-regexp name_regex [value_regex]
+       git config [<file-option>] [type] [-z|--null] --get-urlmatch name URL
+       git config [<file-option>] --unset name [value_regex]
+       git config [<file-option>] --unset-all name [value_regex]
+       git config [<file-option>] --rename-section old_name new_name
+       git config [<file-option>] --remove-section name
+       git config [<file-option>] [-z|--null] -l | --list
+       git config [<file-option>] --get-color name [default]
+       git config [<file-option>] --get-colorbool name [stdout-is-tty]
+       git config [<file-option>] -e | --edit
+
+DESCRIPTION
+       You can query/set/replace/unset options with this command. The name is actually the section and the key
+       separated by a dot, and the value will be escaped.
+ ..............
+```
+
+Tài liệu hướng dẫn này thì chúng ra có thể sử dụng bất kỳ lúc nào để tham khảo cách sử dụng một lệnh `git` kể cả khi chúng ta không có kết nối internet. Trong trường hợp các bạn gặp khó khăn cần hỏi các chuyên gia thì các bạn có thể vào channel #git hoặc #github trên [Freenode IRC](rc.free- node.net) thì sẽ có hàng trăm hàng nghìn người dùng và chuyên gia `git` sẵn sàng giúp đỡ bạn.
+
+## Sử dụng Git cơ bản.
+Phần này sẽ trình bày về những lệnh cơ bản thường dùng của Git. Sau bài học này, bạn sẽ biết cách cấu hình và khởi tạo một `git repository`, bắt đầu và loại bỏ việc tracking files. Chúng ta cũng tìm hiểu thêm cách cài đặt Git để bỏ qua những file không cần thiết thông qua chỉ đinh theo `pattern` như `*.txt` sẽ loại bỏ toàn bộ file kết thúc bằng `.txt`, làm thế nào có thể sữa chữa sai lầm một cách nhanh chóng và dễ dàng, làm thế nào để xem lịch sử commit và xem sự thay đổi nội dung của từng file giữa các commit khác nhau, và cách thực hiện `push` và `pull` từ các `remote repository`.
+
+### Khởi tạo một git repository
+
+Chúng ta có thể khởi tạo một git repository bằng hai cách khác nhau. Cách thứ nhất là từ dự án hay thư mục có sẵn chúng ta import thành git repository. Cách thứ hai là `clone` một git repository có sẵn từ một máy chủ khác.
+
+* Khởi tạo git repo từ một thư mục có sẵn
+Khi bạn muốn bắt đầu sử dụng Git quản lý version cho một dự án có sẵn, thì bạn chỉ cần chạy lệnh sau trên thư mục của dự án.
+
+```
+$ git init
+Initialized empty Git repository in /Users/hadv/work/src/github.com/hadv/gochatapp/.git/
+```
+Một thư mục con có tên là `.git` dành riêng cho Git sẽ được tạo ra. Chúng ta sẽ tìm hiểu kỹ thêm về cấu trúc và nội dung trong thư mục `.git` trong các bài tiếp theo. Tại thời điểm này thì chưa có file nào được tracking.  Để sáng tỏ điều này, bạn có thể chạy lệnh `git status` như bên dưới và xem nội dung output trên màn hình.
+
+```
+$ git status
+On branch master
+
+Initial commit
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	README.md
+	bower.json
+	chatapp.go
+	static/
+	templates/
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+Để bắt đầu tracking file, thì chúng ra sử dụng lệnh `git add` và thực hiện commit như sau
+
+```
+$ git add -all
+$ git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+
+	new file:   README.md
+	new file:   bower.json
+	new file:   chatapp.go
+
+$ git commit -m "Initial commit"
+$ git log
+commit ceb4f8fccdeb17db5e793dd1940cf78d6519dad7
+Author: hadv <dvietha@gmail.com>
+Date:   Sun Mar 27 02:46:48 2016 +0700
+
+    Initial commit
+```
+
+* clone một git project đã có sẵn
+Nếu bạn muốn copy một git project, ví dụ như là một project mà bạn muốn phát triển thì lệnh bạn cần là `git clone`. Nếu bạn đã từng sử dụng một hệ thống VCS như SVN thì bạn sẽ thấy sự khác biệt ở đây là `clone` chứ không phải `checkout`. Đây là một sự khác biệt cơ bản và có tầm quan trọng. Git không chỉ lấy về thư mục làm việc mà thực tế Git sẽ lấy gần như toàn bộ  những gì mà trên server hiện có. Toàn bộ các version của file và  lịch sử commit của dự án đều được lấy về khi bạn chạy lệnh `git clone`. Thực tế là nếu không may server của dự án có vấn đề hỏng hóc và lưu trữ bị mất toàn bộ thông tin dự án thì chúng ta hoàn toàn có thể lấy lại toàn bộ từ chính repo trên máy cá nhân.
+
+Bạn có thể clone một repo bằng lệnh `git clone [url]`. Ví dụ, bạn muốn clone thư viện tên là `phantomjs` thì bạn làm như sau
+
+```
+$ git clone https://github.com/ariya/phantomjs.git
+Cloning into 'phantomjs'...
+remote: Counting objects: 63765, done.
+remote: Total 63765 (delta 0), reused 0 (delta 0), pack-reused 63765
+Receiving objects: 100% (63765/63765), 128.78 MiB | 1.36 MiB/s, done.
+Resolving deltas: 100% (31157/31157), done.
+Checking connectivity... done.
+```
+
+Sau khi kết thúc lệnh này thì một thư mục có tên là `phantomjs` được tạo ra, đồng thời một thư mục con `.git` cũng được tạo ra bên trong nó. Toàn bộ dữ liệu của project sẽ được lấy về local. Kiểm tra thư mục `phantomjs`, bạn sẽ thấy toàn bộ file của dự án đã được lấy về và bạn có thể bắt đầu sử dụng và làm việc.
+
+```
+$ cd phantomjs/
+$ ls -al
+total 144
+drwxr-xr-x  17 hadv  staff    578 Mar 27 03:05 .
+drwxr-xr-x+ 95 hadv  staff   3230 Mar 27 03:04 ..
+drwxr-xr-x  12 hadv  staff    408 Mar 27 03:05 .git
+-rw-r--r--   1 hadv  staff    650 Mar 27 03:05 .gitignore
+-rw-r--r--   1 hadv  staff    340 Mar 27 03:05 .gitmodules
+-rw-r--r--   1 hadv  staff   4389 Mar 27 03:05 CONTRIBUTING.md
+-rw-r--r--   1 hadv  staff  17204 Mar 27 03:05 ChangeLog
+-rw-r--r--   1 hadv  staff   1429 Mar 27 03:05 LICENSE.BSD
+-rw-r--r--   1 hadv  staff   2502 Mar 27 03:05 README.md
+-rwxr-xr-x   1 hadv  staff  19073 Mar 27 03:05 build.py
+drwxr-xr-x   8 hadv  staff    272 Mar 27 03:05 deploy
+drwxr-xr-x  47 hadv  staff   1598 Mar 27 03:05 examples
+-rw-r--r--   1 hadv  staff     66 Mar 27 03:05 phantomjs.pro
+drwxr-xr-x  54 hadv  staff   1836 Mar 27 03:05 src
+drwxr-xr-x  12 hadv  staff    408 Mar 27 03:05 test
+-rw-r--r--   1 hadv  staff   1520 Mar 27 03:05 third-party.txt
+drwxr-xr-x   6 hadv  staff    204 Mar 27 03:05 tools
+```
+
+Nếu bạn muốn clone repo trên về với một tên thư mục khác hơn là `phantomjs` thì bạn có thể chỉ định tên thư mục như trong lệnh sau
+```
+$ git clone https://github.com/ariya/phantomjs.git my-phantom-js
+```
+Lệnh làm thực hiện giống lệnh trên chỉ khác là tên thư mục đích là `my-phantom-js` thay vì là `phantomjs`.
+
+Git có hỗ trợ nhiều phương thức truyền dữ liệu khác nhau. Ví dụ trước là sử dụng phương thức [HTTPs](https://en.wikipedia.org/wiki/HTTPS). Ngoài ra, chúng ra có thể sử dụng phương thức [SSH](https://en.wikipedia.org/wiki/Secure_Shell) bằng việc sử dụng [url] như `git@github.com:ariya/phantomjs.git`  hoặc `user@server:path/to/repo.git`. Thông thường trong các dự án thì chúng ta thích sử dụng `SSH` hơn vì không cần phải nhập user/password mỗi lần làm viêc với server, mà chỉ cần cấu hình `SSH Keys` trên server một lần duy nhất. Chúng ta sẽ quay lại chủ để này trong bài học về `GitHub`.
+
+### Lưu lại những thay đổi của repo
+
+Lúc này bạn đã có một git repo thực thụ và một thư mục làm việc có chứ toàn bộ file của dự án. Trong quá trình làm việc, bạn sẽ thay đổi một vài file và bạn muốn commit những thay đổi này lên repo mỗi khi bạn đã hoàn thành xong một công việc.
+
+Hãy nhớ rằng mỗi file trong thư mục làm việc có thể có một trong hai trạng thái: `tracked` và `untracked`. Tracked file là các file đã có trong snapshot của lần trước; nó có thể là `unmodified`, `modified` và `staged`. Untracked file là tất cả các file nằm trong thư mục làm việc và  không có trong snapshot của lần trước và không có trong `staging area`.  
+
+Khi mới clone một repo về, toàn bộ các file ở trong trạng thái `tracked` và `unmodified` bởi vì Git vừa mới checkout và chúng ta chưa có thay đổi gì cả. Sau đó, khi chúng ta thay đổi một vài file, Git sẽ đưa các file đó vào trạng thái `modified` vì bạn đã thay đổi nội dung của chúng so với lần commit trước đây. Sau đó chúng ta đưa các file thay đổi vào `staging area` và commit toàn bộ những thay đổi đã được staging. Và cứ tiếp tục như vậy tạo thành một vòng lặp như mô tả trong hình vẽ sau đây
+
+![git-cycle](https://s3-ap-southeast-1.amazonaws.com/kipalog.com/progit-en_1084__page_45_of_574_.jpg_15ln2ac9ww)
+
+* Kiểm tra trạng thái của files
+Lệnh Git để kiểm tra trạng thái của file là `git status`. Nếu chúng ta chạy lệnh `git status` ngay sau khi clone repo về thì chúng ta sẽ nhận được kết quả như sau
+
+```
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit, working directory clean
+```
+
+Có nghĩa là bạn đang có mộ thư mục làm việc hoàn toàn sạch sẽ, hay nói cách khác là bạn không có files nào đang được `modified` hoặc `staging`. Ngoài ra, Git còn cung cấp thông tin là bạn đang làm việc trên branch nào. Hiện tại thì branch luôn luôn là branch **master** mặc định. Đừng vội quan tâm đến điều này, chúng ta sẽ tìm hiểu kỹ hơn trong bài về `git branch`.
+
+Bây giờ, chúng ta tạo thêm một file `README` trong thư mục làm việc và chạy lệnh `git status` thì chúng ta có thể sẽ nhận được kết quả như sau.
+
+```
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	README
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+Bạn có thể nhận thấy rằng file `README` hiện tại đang ở trạng thái `untracked` bởi vì nó đang nằm trong phần `Untracked files:` của kết quả trả về bên trên. Trạng thái `Untracked` về cơ bản mang ý nghĩa là Git không tìm thấy file này trong các lần commit trước đây. Và Git cũng không tự động track file trừ khi bạn ra lệnh cho nó. Khi bạn muốn tracking một file nào thì bạn thực hiên lệnh `git add` và kiểm tra lại trạng thái của file bằng lệnh `git status`  như bên dưới.
+
+```
+$ git add README
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	new file:   README
+```
+
+Bạn có thể nói rằng file README đã được `staging` vì nó nằm trong phần `Changes to be committed:` trọng kết quả trả về của Git. Nếu bạn thực hiện commit thì nội dung thay đổi khi chạy lệnh `git add` sẽ được đưa vào lịch sử snapshot. Ngoài ra, bạn có thể chạy lệnh `git add` với thư mục và khi đó toàn bộ thư mục và files bên trong thư mục cha sẽ được tracking.
+
+* Đưa modified vào trạng thái `staging`
+Bây giờ chúng ra thay đổi nội dung của một file đã được tracking, ví dụ, chúng ta thay đổi nội dung file `CONTRIBUTING.md` và chạy lệnh `git status` như sau
+
+```
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	new file:   README
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   CONTRIBUTING.md
+```
+
+FIle `CONTRIBUTING.md` xuất hiện trong phần `Changes not staged for commit:` nghĩa là file đã được tracking, nội dung file đã được thay đổi trong thư mục làm việc và chưa được đưa vào `staging area` với lệnh `git add` và kiểm tra lại trạng thái bằng `git status`
+
+```
+$ git add CONTRIBUTING.md
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   CONTRIBUTING.md
+	new file:   README
+
+```
+
+Khi đó cả 2 file đều nằm trong `staging area` và sẽ được đưa vào cho lần commit tiếp theo. Chẳng may, bạn chợt nhớ ra rằng bạn đã có một lỗi `typo` trong file `CONTRIBUTING.md` và bạn tiến hành sửa lỗi typo đó trước khi commit. Bạn mở file ra và thực hiện sửa lỗi typo, và bạn đã sẵn sàng để commit. Tuy nhiên, thử chạy lệnh `git status` để kiểm tra xem sao.
+
+```
+$ nano CONTRIBUTING.md
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   CONTRIBUTING.md
+	new file:   README
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   CONTRIBUTING.md
+
+```
+
+Cái gì thế này? Tại sao file `CONTRIBUTING.md` lại nằm trong 2 khu vực trạng thái khác nhau? Điều này chỉ ra rằng Git đã stage file đúng như trạng thái nó được thêm vào với lệnh `git add` . Bây giờ nếu bạn thực hiện lệnh `commit` thì Git sẽ nội dung cùa file `CONTRIBUTING.md` chỉ là nội dung mà khi nó được thêm vào khi bạn chạy lệnh `git add` chứ không phải là nội dụng hiện tại trong thư mục làm việc của bạn. Nếu nội dung thay đổi thực hiện sau khi chạy `git add` thì bạn phải chạy lại lệnh ` git add` một lần nữa để thực hiện `staging` nội dung thay đổi mới nhất của file.
+
+```
+$ git add CONTRIBUTING.md
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   CONTRIBUTING.md
+	new file:   README
+```
+
+Khi đã quan và thành thạo Git rồi, thì thông thường chúng ta chỉ cần xem một cách ngắn gọn, giống với những gì mà `svn status` đã làm, để biết những file nào đã có thay đổi thì bạn có thể chỉ định thêm `--short` như sau
+
+```
+$ git status --short --ignored
+M  CONTRIBUTING.md
+A  README
+D  test/writing-tests.md
+R  third-party.txt -> my-third-party.txt
+MM phantomjs.pro
+?? LICENSE.txt
+!! test.a
+```
+
+### Loại bỏ những files không cần thiết
+Thông thường khi bắt đầu một dự án, tuỳ theo đặc thù của ngôn ngữ phát triển và IDE đang sử dụng, chúng ta nên cấu hình để loại bỏ những thư mục hay files không cần thiết để tránh việc commit những dữ liệu thừa lên repo. Để cấu hình để Git tự động loại bỏ những files không cần thiết thì chúng ta có thể đưa vào file `.gitignore` theo pattern giống như trong `regular expression` của file và thư mục. Ví dụ, chúng ta muốn loại bỏ toàn bộ files kết thúc bằng `*.o` và `*.a` (ngoạ trừ file lib.a) , `.DS_Store`,`*.xcodeproj`,  `Makefile*` hay những file tạm như `*~` thì chúng ta có thể đưa pattern này vào file `.gitignore` như sau
+
+```
+$ cat .gitignore
+.DS_Store
+*.xcodeproj
+Makefile*
+*~
+*.[oa]
+!lib.a
+```
+
+> GitHub có định nghĩa trước một số mẫu `.gitignore` file theo đặc thù từng loại dự án trên link https://github.com/github/gitignore, bạn có thể sử dụng để làm cơ sở ban đầu cho các dự án mới.
+
+Quay lại một chút về `git config`, chúng ta có thể nhận thấy rằng Git cho phép chúng ta định nghĩa `gitignore` chung cho tất cả các dự án bằng cách chỉ định trong `git config --global` như sau
+
+```
+core.excludesfile=/Users/hadv/.gitignore_global
+```
+
+Như vậy tất cả những file được chỉ định trong file `.gitignore_global` sẽ được áp dụng cho toàn bộ các dự án của người dùng hiện tại.
+
+### Xem nội dung thay đổi của file
+Lệnh `git status` cho phép chúng ta xem nhanh những file nào đã bị thay đổi. Tuy nhiên, để xem chi tiết nội dung thay đổi của từng file cụ thể như thế nào thì chúng ta sử dụng lệnh `git diff` để xem. `git diff` cho phép chúng ta xem cụ thể dòng nào bị xoá đi, dòng nào được thêm vào theo định dạng của `patch` file. Ví dụ, chúng ta thay đổi nội dung file `CONTRIBUTING.md` và muốn xem lại nội dung thay đổi chi tiết như sau.
+
+```
+$ vim CONTRIBUTING.md
+$ git diff
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index 7fd2f83..7cb34a6 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -1,11 +1,12 @@
+-# Contribution Guide
++# Pro Git
++I want to contribute my knowledges for the techmaster.vn and git community.
++
++# Contribution Guides
+
+ This page describes how to contribute changes to PhantomJS.
+
+ Please do **not** create a pull request without reading this guide first. Failure to do so may result in the **rejection** of the pull request.
+
+-## For The Impatients
+-
+ **Work on a feature branch**.
+ If your changes need to be modified due to some reviews, it is less clutter to tweak an isolated feature branch and push it again.
+```
+
+Sau khi đã hài lòng với nội dung thay đổi, chúng ta sẽ đưa nội dung thay đổi của `CONTRIBUTING.md` và khu vực staging để chuẩn bị cho lần commit tiếp theo bằng lệnh `git add .`. Chúng ta sử dụng lại lệnh `git diff` để xem nội dung thay đổi sau khi đã staging xem sao.
+
+```
+$ git diff
+```
+
+Lạ nhỉ, sao không thấy nội dung thay đổi đâu cả? Hmmm, thì ra lệnh `git diff` chỉ hiển thị nội dung thay đổi của những file chưa được staging nên những file đã staging rồi thì không được hiển thị nữa. Vậy làm thế nào để có thể xem nội dung thay đổi của file đã được staging trước khi chuẩn bị commit? Để làm việc này bạn chỉ cần thêm chỉ định `--cached` hoặc `--staged` vào lệnh `git diff` như sau là được
+
+```
+$ git diff --staged
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index 7fd2f83..7cb34a6 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -1,11 +1,12 @@
+-# Contribution Guide
++# Pro Git
++I want to contribute my knowledge for the techmaster.vn
++
++# Contribution Guides
+
+ This page describes how to contribute changes to PhantomJS.
+
+ Please do **not** create a pull request without reading this guide first. Failure to do so may result in the **rejection** of the pull request.
+
+-## For The Impatients
+-
+ **Work on a feature branch**.
+ If your changes need to be modified due to some reviews, it is less clutter to tweak an isolated feature branch and push it again.
+```
+
+Phù, may quá nội dung thay đổi đã quay trở lại :smile:. Ngoài ra, để xem nội dung thay đổi của toàn bộ những file đã được và chưa được staging thì bạn có thể sử dụng lệnh `git diff HEAD`
+
+### Commit nội dung thay đổi
+Lúc này, chúng ta đã có tất cả những gì cần thiết trong trạng thái staging và cuối cùng việc chúng ta cần làm là commit những thay đổi này để quản lý version và chia sẻ thay đổi này với các thành viên khác trong dự án. Để commit nội dung thay đổi chúng ta sử dụng lệnh `git commit`, khi đó Git sẽ hiện thị một trình soạn thảo để chúng ta nhập nội dung comment cho lần commit này.
+
+```
+$ git commit
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#       modified:   CONTRIBUTING.md
+#
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+~                                                                               
+"~/phantomjs/.git/COMMIT_EDITMSG" 9L, 266C
+```
+
+Bạn có thể chỉ đinh thêm `-v` để xem nội dung thay đổi chi tiết trước khi commit như bên dưới
+```
+$ git commit -v
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#       modified:   CONTRIBUTING.md
+#
+# ------------------------ >8 ------------------------
+# Do not touch the line above.
+# Everything below will be removed.
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index 7fd2f83..7cb34a6 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -1,11 +1,12 @@
+-# Contribution Guide
++# Pro Git
++I want to contribute my knowledge for the techmaster.vn
++
++# Contribution Guides
+
+"~/phantomjs/.git/COMMIT_EDITMSG" 32L, 1044C
+```
+
+Một chú ý nhỏ là không như svn, git sẽ không cho phép bạn commit nếu như bạn không nhập nội dung cho comment. Trong các dự án thực tế thì thường sẽ có quy định viết comment để có thể dễ dàng tìm lại nội dung thay đổi khi cần thiết. Chúng ta nên tập thói quen viết nội dung comment xúc tích và phù hợp với nội dung thay đổi. Thông thường chúng ta sẽ chỉ định nội dung comment của commit bằng cách chỉ định `git commit -m` như bên dưới.
+
+```
+$ git commit -m "story #123: Fix benchmarks for speed"
+[master ff78856] story #123: Fix benchmarks for speed
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+```
+
+Mỗi lần thực hiện commit nghĩa là bạn đã tạo một snapshot của dự án và bạn có thể dễ dàng lấy lại hay so sánh nội dung thay đổi với các snapshot khác khi cần thiết.
+
+
+
+
+**Practise #1: Cài đặt và cấu hình Git cho nhu cầu sử dụng của cá nhân**
