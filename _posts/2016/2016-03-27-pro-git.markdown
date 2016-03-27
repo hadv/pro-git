@@ -1,6 +1,5 @@
 ![logo](https://git-scm.com/images/logos/downloads/Git-Logo-2Color.png)
-
-# Buổi #1: Cơ bản về Git
+# Pro Git
 ## Hệ thống quản lý version – VCS
 Hệ thống quàn lý version là gì, và tại sao chúng ta cần quan tâm và sử dụng nó? Hệ thống quản lý version là một hệ thống lưu lại toàn bộ lịch sử thay đổi của một hoặc nhiều file để chúng ta có thể lấy lại một phiên bản bất kỳ nào đó. Thông thường, chúng ta nghĩ các hệ thống quản lý version dùng để quản lý các file mã nguồn. Tuy nhiên, trong thực thế chúng ta có thể dùng để quản lý version cho bất kỳ định dạng file nào.
 
@@ -144,7 +143,7 @@ $ git config user.email
 dvietha@gmail.com
 ```
 
-### Tự học Git bằng cách sử dụng help
+## Tự học Git bằng cách sử dụng help
 Sau khi đã có những tiếp cận cơ bản về `Git`, chúng ra hoàn toàn có thể tự tìm hiểu sâu thêm về `Git` bằng việc sử dụng và đọc các tài liệu `help` của git. Có 3 cách để chúng ta có thể mở hướng dẫn sử dụng một lệnh bất kỳ của `git`.
 ```
 $ git help <từ khoá>
@@ -190,7 +189,7 @@ Tài liệu hướng dẫn này thì chúng ra có thể sử dụng bất kỳ 
 
 **Practise #1: Cài đặt và cấu hình Git cho nhu cầu sử dụng của cá nhân**
 
-## Sử dụng Git cơ bản.
+## Sử dụng Git cơ bản
 Phần này sẽ trình bày về những lệnh cơ bản thường dùng của Git. Sau bài học này, bạn sẽ biết cách cấu hình và khởi tạo một `git repository`, bắt đầu và loại bỏ việc tracking files. Chúng ta cũng tìm hiểu thêm cách cài đặt Git để bỏ qua những file không cần thiết thông qua chỉ đinh theo `pattern` như `*.txt` sẽ loại bỏ toàn bộ file kết thúc bằng `.txt`, làm thế nào có thể sữa chữa sai lầm một cách nhanh chóng và dễ dàng, làm thế nào để xem lịch sử commit và xem sự thay đổi nội dung của từng file giữa các commit khác nhau, và cách thực hiện `push` và `pull` từ các `remote repository`.
 
 ### Khởi tạo một git repository
