@@ -584,7 +584,13 @@ Mỗi lần thực hiện commit nghĩa là bạn đã tạo một snapshot củ
 ### Bỏ qua khu vực staging
 Mặc dù khu vực staing giúp chúng ta quản lý nội dung sẽ được commit một cách chắc chắn, tránh việc commit nhầm những nội dung không mong muốn. Nhưng đôi khi chúng ta cảm thấy việc staging là hơi rườm rà, phức tạp và không cần thiết. Git cung cấp một công cụ để bạn có thể bỏ qua `khu vực staging` bằng cách sử dụng chỉ định `-a` trong lệnh `git commit` như sau.
 
+```
+$ git commit -a -m "Bài học số #1"
+[master 479b68e] Bài học số #1
+ 1 file changed, 54 insertions(+)
+```
 
+Tuy nhiên, chúng ta nên cẩn thận khi sử dụng cờ `-a` khi thực hiện lệnh `git commit` bởi vì bạn sẽ vô tình commit cả những file không cần thiết lên git repository.
 
 
 **Practise #1: Cài đặt và cấu hình Git cho nhu cầu sử dụng của cá nhân**
