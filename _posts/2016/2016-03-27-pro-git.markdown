@@ -23,6 +23,57 @@ Từ khi ra đời năm 2005, Git đã liên tục được cải tiến và tr�
 Xem trong [lịch sử commit](http://git.kernel.org/cgit/git/git.git/log/?) của Git thì thấy có tên của 2 người Việt là `Trần Ngọc Quân` và `Nguyễn Thái Ngọc Duy` có tham gia vào việc phát triển Git :+1:
 
 ## Git hoạt động như thế nào?
+Git hoạt động như thế nào? Phần này thực sự rất quan trọng vì nếu bạn hiểu rõ Git và là gì và cơ bản Git hoạt động như thế nào thì bạn sẽ sử dụng Git một cách hiệu quả và có thể là dễ dàng hơn rất nhiều. Khi bạn tiếp cận với Git, bạn cố gắng loại bỏ hoàn toàn những gì bạn đã biết về các hệ thống VCS khác mà bạn đã từng biết để tránh những hiểu nhầm hay tiếp cận một cách lệch lạc. Git lưu giữ và tiếp cận dữ liệu một cách khác biệt so với toàn bộ các hệ thống khác, mặc dù nếu nhìn sơ bộ bề ngoài thì cảm giác là không có gì khác nhau. Nếu bạn có thể hiểu sự khác biệt này thì sẽ tránh cho bạn việc hiểu nhầm khi sử dụng Git.
+
+### Git lưu giữ snapshot thay vì nội dung thay đổi
+Sự khác biệt lớn nhất giữa Git và các VCS khác là cách Git nhìn nhận về dữ liệu. Về lý thuyết, hầu hết các hệ thống VCS đều lưu giữ thông tin dựa trên các nội dung thay đổi của các files. Các hệ thống này nhìn nhận thông tin bao gồm các files và các nội dung thay đổi theo thời gian như hình bên dưới.
+
+![svn](images/2016/03/progit-en_1084__page_32_of_574_.jpg)
+
+Git không tiếp cận về thông tin như vậy. Thay vì đó, Git tiếp cận thông tin như một chuỗi các snapshot của một hệ thống file HĐH thu nhỏ. Mỗi lần bạn commit, hay bạn lưu giữ một trạng thái của dự án thì về cơ bản giống như bạn chụp một bức ảnh toàn bộ nội dung của files tại thời điểm đó. Để hoạt động được hiệu quả thì đối với những file không thay đổi, Git sẽ không lưu giữ lặp lại mà chỉ link đến trạng thái trước đó. Git tiếp cận dữ liệu của dự án như một chuỗi các snapshot.
+
+![git-snapshot](images/2016/03/progit-en_1084__page_32_of_575_.jpg)
+
+Đây thực sự là một khác biệt quan trọng giữa Git và hầu hết các hệ thống VCS khác. Điều này làm đã làm thay đổi hoàn toàn cách làm mà các VCS khác đã copy từ các VCS trước đó. Git hoạt động như một hệ thống file của một HĐH thu nhỏ và bổ sung thêm các công cụ mạnh mẽ trên nền đó, chứ không đơn giản chỉ là một hệ thống VCS. Chúng ta sẽ tìm hiểu rõ thêm về điều này trong bài học về `Git Branching`.
+
+### Git gần như có thể hoạt động hoàn toàn local
+Hầu hết các thao tác trên Git chỉ cần các file và tài nguyên của máy local; nhìn chung là không cần thông tin từ các máy tính khác kết nối qua mạng. Nếu bạn đã từng sử dụng những hệ thống VCS khác thì bạn có thể thấy được điều này, Git không cần kết nối đến máy chủ, mà các thao tác hoàn toàn có thể thực hiện ngay trên local một các nhanh chóng. Vì toàn bộ lịch sử thay đổi của dự án đều được lưu giữ đầy đủ ở local, chính vì điều này nên chúng ta gọi Git là một hệ thống VCS phân tán hoàn toàn.
+
+Điều này giúp bạn có thể làm việc một cách độc lập mà không phụ thuộc vào kết nối đến máy chủ. Chẳng hạn, khi đang trên máy bay hay đi tầu điện, hay khi về nhà bạn không thể kết nối đến máy chủ của công ty, bạn vẫn có thể làm việc và thực hiện commit trên máy tính của bạn. Sau đó, bạn có thể đẩy nội dung thay đổi khi có kết nối. Điều này gần như không thể làm với hầy hết các hệ thống VCS khác.
+
+### Git đảm bảo về toàn vẹn dữ liệu
+Tất cả các thông tin của Git đều được thực hiện checksum trước khi lưu giữ và các thông tin đó sẽ được `refer` đến bằng chính checksum đó. Điều này có nghĩa là chúng ta không thể thay đổi nội dung của file hay thư mục nào đó một cách tuỳ ý mà không thông qua Git. Chức năng này được xây dựng trong nhân của Git và được tích hợp vào triết lý của Git.
+
+Kỹ thuật mà Git sử dụng để tiến hành checksum là kỹ thuật băm thông tin `SHA-1`. Mã băm này là một chuỗi 40-ký tự bao gồm các ký tự cơ số 16 `[0-9a-f]`. Mã băm này được tính toán dựa trên nội dung của file và thư mục của mỗi lần commit trên Git. Ví dụ, một mã băm SHA-1 có thể sẽ có giá trị như sau
+
+```
+24b9da6552252987aa493b52f8696cd6d3b00373
+```
+
+Chúng ta sẽ thấy mã băm này được sử dụng khắp nơi trên các hệ thống Git bời vì Git sử dụng rất nhiều mã băm này. Thực tế là Git lưu giữ thông tin trong CSDL củaủa nó không phải bằng tên file mà là mã băm từ nội dung của file.
+
+### Ba trạng thái của file trong Git
+Để hiểu rõ cách thức hoạt động của Git thì chúng ta cần chú trọng đến việc hiểu rõ các trạng thái của file trong Git. Nắm rõ được các trạng thái này thì việc tiếp cận Git về sau trở nên thuận lợi hơn rất nhiều. Git có 3 trạng thái của file: `committed`,`staged` và `modified`.
+* `committed` nghĩa là dữ liệu đã được lưu giữ an toàn vào git local database.
+* `staged` nghĩa là chúng ta đã đánh dấu sự thay đổi của dữ liệu và chuẩn bị cho lần commit tiếp theo.
+* `modified` nghĩa là chúng ta đã thay đổi nội dung của file nhưng chưa được staging hay chưa được commit vào git local database.
+
+Tương ứng với ba trạng thái kể trên, chúng ta sẽ có ba khu vực chính của một dự án Git: `thư mục Git`, `thư mục làm việc` và `khu vực staging` như hình bên dưới.
+
+![git-area](images/2016/03/progit-en_1084__page_35_of_576_.jpg)
+
+* `Thư mục Git`: là nơi Git lưu giữ toàn bộ dữ liệu dự án. Đây là phần quan trọng nhất của Git, và nó được copy khi bạn thực hiện clone repo dự án từ một máy tính khác về local.
+* `Thư mục làm việc`: Là một version riêng lẻ của dự án được checkout từ `thư mục Git` về một thư mục trên ổ cứng để bạn có thể làm việc và thay đổi trên đó.
+* `Khu vực staging`: Là những file sẽ được đưa vào cho lần commit kế tiếp. Đôi khi được gọi là `index`, nhưng thường được gọi là `khu vực staging`.
+
+### Git flow
+Như vậy, một flow cơ bản của Git sẽ giống như sau:
+1. Chúng ta thay đổi nội dung của file trên `thư mục làm việc`
+2. Sau đó, chúng ta thực hiện staging nội dung thay đổi của file. Đưa snapshot của các file vào `khu vực staging` dể chuẩn bị cho lần commit tiếp theo.
+3. Cuối cùng chúng ta thực hiện commit để lưu giữgiữ trạng thái trong `khu vực staging` vào `thư mục Git`.
+
+Trong nội dung bài học tiếp theo chúng ta sẽ tìm hiểu sâu thêm về vấn đề này.
+
 ## Cài đặt Git
 ### Linux
 **Debian/Ubuntu**
@@ -529,6 +580,9 @@ $ git commit -m "story #123: Fix benchmarks for speed"
 ```
 
 Mỗi lần thực hiện commit nghĩa là bạn đã tạo một snapshot của dự án và bạn có thể dễ dàng lấy lại hay so sánh nội dung thay đổi với các snapshot khác khi cần thiết.
+
+### Bỏ qua khu vực staging
+Mặc dù khu vực staing giúp chúng ta quản lý nội dung sẽ được commit một cách chắc chắn, tránh việc commit nhầm những nội dung không mong muốn. Nhưng đôi khi chúng ta cảm thấy việc staging là hơi rườm rà, phức tạp và không cần thiết. Git cung cấp một công cụ để bạn có thể bỏ qua `khu vực staging` bằng cách sử dụng chỉ định `-a` trong lệnh `git commit` như sau.
 
 
 
