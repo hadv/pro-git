@@ -36,7 +36,7 @@ Git không tiếp cận về thông tin như vậy. Thay vì đó, Git tiếp c�
 
 Đây thực sự là một khác biệt quan trọng giữa Git và hầu hết các hệ thống VCS khác. Điều này làm đã làm thay đổi hoàn toàn cách làm mà các VCS khác đã copy từ các VCS trước đó. Git hoạt động như một hệ thống file của một HĐH thu nhỏ và bổ sung thêm các công cụ mạnh mẽ trên nền đó, chứ không đơn giản chỉ là một hệ thống VCS. Chúng ta sẽ tìm hiểu rõ thêm về điều này trong bài học về `Git Branching`.
 
-### Git gần như có thể hoạt động hoàn toàn local
+### Git gần như có thể hoạt động hoàn toàn trên máy local
 Hầu hết các thao tác trên Git chỉ cần các file và tài nguyên của máy local; nhìn chung là không cần thông tin từ các máy tính khác kết nối qua mạng. Nếu bạn đã từng sử dụng những hệ thống VCS khác thì bạn có thể thấy được điều này, Git không cần kết nối đến máy chủ, mà các thao tác hoàn toàn có thể thực hiện ngay trên local một các nhanh chóng. Vì toàn bộ lịch sử thay đổi của dự án đều được lưu giữ đầy đủ ở local, chính vì điều này nên chúng ta gọi Git là một hệ thống VCS phân tán hoàn toàn.
 
 Điều này giúp bạn có thể làm việc một cách độc lập mà không phụ thuộc vào kết nối đến máy chủ. Chẳng hạn, khi đang trên máy bay hay đi tầu điện, hay khi về nhà bạn không thể kết nối đến máy chủ của công ty, bạn vẫn có thể làm việc và thực hiện commit trên máy tính của bạn. Sau đó, bạn có thể đẩy nội dung thay đổi khi có kết nối. Điều này gần như không thể làm với hầy hết các hệ thống VCS khác.
@@ -187,6 +187,8 @@ DESCRIPTION
 ```
 
 Tài liệu hướng dẫn này thì chúng ra có thể sử dụng bất kỳ lúc nào để tham khảo cách sử dụng một lệnh `git` kể cả khi chúng ta không có kết nối internet. Trong trường hợp các bạn gặp khó khăn cần hỏi các chuyên gia thì các bạn có thể vào channel #git hoặc #github trên [Freenode IRC](rc.free- node.net) thì sẽ có hàng trăm hàng nghìn người dùng và chuyên gia `git` sẵn sàng giúp đỡ bạn.
+
+**Practise #1: Cài đặt và cấu hình Git cho nhu cầu sử dụng của cá nhân**
 
 ## Sử dụng Git cơ bản.
 Phần này sẽ trình bày về những lệnh cơ bản thường dùng của Git. Sau bài học này, bạn sẽ biết cách cấu hình và khởi tạo một `git repository`, bắt đầu và loại bỏ việc tracking files. Chúng ta cũng tìm hiểu thêm cách cài đặt Git để bỏ qua những file không cần thiết thông qua chỉ đinh theo `pattern` như `*.txt` sẽ loại bỏ toàn bộ file kết thúc bằng `.txt`, làm thế nào có thể sữa chữa sai lầm một cách nhanh chóng và dễ dàng, làm thế nào để xem lịch sử commit và xem sự thay đổi nội dung của từng file giữa các commit khác nhau, và cách thực hiện `push` và `pull` từ các `remote repository`.
@@ -590,7 +592,4 @@ $ git commit -a -m "Bài học số #1"
  1 file changed, 54 insertions(+)
 ```
 
-Tuy nhiên, chúng ta nên cẩn thận khi sử dụng cờ `-a` khi thực hiện lệnh `git commit` bởi vì bạn sẽ vô tình commit cả những file không cần thiết lên git repository.
-
-
-**Practise #1: Cài đặt và cấu hình Git cho nhu cầu sử dụng của cá nhân**
+> Tuy nhiên, chúng ta nên cẩn thận khi sử dụng cờ `-a` khi thực hiện lệnh `git commit` bởi vì bạn sẽ vô tình commit cả những file không cần thiết lên git repository.
